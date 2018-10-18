@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 var url = 'https://appear.in/june2.0';
-var interval = 30 * 60 * 1000; // 120min
+var interval = 30 * 60 * 1000; // 30min
 
 /**
  * This part is responsible for setting the reload timetout
