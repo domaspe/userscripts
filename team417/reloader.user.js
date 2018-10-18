@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
 // @match        https://appear.in/june2.0*
@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 var url = 'https://appear.in/june2.0';
-var interval = 120 * 60 * 1000; // 120min
+var interval = 30 * 60 * 1000; // 120min
 
 /**
  * This part is responsible for setting the reload timetout
@@ -23,24 +23,16 @@ setTimeout(function() {
 
 /**
  * This part is responsible for clicking on full screen button
- * Its disabled, because it's impossible to determine which screen to enlarge
+ * Finds the last connected client and enlarges the screen
  */
-// var checkStarted = setInterval(function() {
-//     if (!document.querySelector('.connection-attempt.wrapper') && document.querySelector('.video-stream-container')) {
-//         clearInterval(checkStarted);
+var checkStarted = setInterval(function() {
+    if (!document.querySelector('.connection-attempt.wrapper') && document.querySelector('.video-stream-container')) {
+        clearInterval(checkStarted);
 
-//         var teamNameNode = document.querySelectorAll('.user-settings-info-text')[0];
-//         if (!teamNameNode) {
-//             return;
-//         }
+        const allClients = document.querySelectorAll('div[ng-repeat="client in clients | clientFilter:RoomState.localClient"]');
+        const lastClient = allClients[allClients.length - 1];
 
-//         var teamName = teamNameNode.innerText;
-//         var button = Array.from(document.querySelectorAll('p[ng-show="module.user.displayName"]'))
-//             .filter(function (item) { return item.innerText !== teamName; })[1]
-//             .parentElement
-//             .parentElement
-//             .querySelector('video-toolbar-button[action="module.toggleSuperSize()"] button.active');
-
-//         button.click();
-//     }
-//  }, 100);
+        const button = lastClient.querySelector('video-toolbar-button[action="module.toggleSuperSize()"] button.active');
+        button.click();
+    }
+ }, 100);
