@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.9
+// @version      0.10
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
 // @match        https://appear.in/june2.0*
@@ -33,7 +33,7 @@ var checkStarted = setInterval(function() {
     clearInterval(checkStarted);
 
     // Try to expand last item every 15s
-    setInterval(function() {
+    function expand() {
       const allClients = document.querySelectorAll(
         'div[ng-repeat="client in clients | clientFilter:RoomState.localClient"]'
       );
@@ -45,6 +45,9 @@ var checkStarted = setInterval(function() {
       if (button) {
         button.click();
       }
-    }, 1000 * 15);
+    }
+
+    setInterval(expand, 1000 * 15);
+    expand();
   }
 }, 100);
