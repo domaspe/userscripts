@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.8
+// @version      0.9
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
 // @match        https://appear.in/june2.0*
