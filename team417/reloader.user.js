@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.10
+// @version      0.11
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
 // @match        https://appear.in/june2.0*
@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 var url = "https://appear.in/june2.0";
-var interval = 30 * 60 * 1000; // 30min
+var interval = 120 * 60 * 1000; // 120min
 
 /**
  * This part is responsible for setting the reload timetout
