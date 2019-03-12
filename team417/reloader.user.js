@@ -1,23 +1,23 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.12
+// @version      0.13
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
-// @match        https://appear.in/june2.0*
+// @match        https://appear.in/june2.0
+// @match        https://appear.in/cardigans
 // @grant        none
 // @updateURL   https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.meta.js
 // @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.user.js
 // ==/UserScript==
 
-var url = "https://appear.in/june2.0";
 var interval = 30 * 60 * 1000; // 30min
 
 /**
  * This part is responsible for setting the reload timetout
  */
 setTimeout(function() {
-  window.open(url, "_blank");
+  window.open(location.href, "_blank");
   window.close();
 }, interval);
 
