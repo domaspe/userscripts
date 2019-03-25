@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.16
+// @version      0.17
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
 // @match        https://appear.in/june2.0
@@ -73,7 +73,7 @@ function switchCamera() {
   }, 1000);
 }
 
-function resizeLastStreamerWindow() {
+function enlargeLastParticipantWindow() {
   // Try to expand last item every 15s
   const expand = () => {
     const allClients = document.querySelectorAll(
@@ -113,6 +113,6 @@ const checkStarted = setInterval(() => {
     clearInterval(checkStarted);
 
     switchCamera();
-    resizeLastStreamerWindow();
+    enlargeLastParticipantWindow();
   }
 }, 100);
