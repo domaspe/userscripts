@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.14
+// @version      0.15
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
 // @match        https://appear.in/june2.0
@@ -11,22 +11,26 @@
 // @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.user.js
 // ==/UserScript==
 
-var interval = 60 * 60 * 1000; // 30min
+const interval = 60 * 60 * 1000; // 60min
 
 function getCameraName() {
   if (location.href.indexOf('june2.0') >= 0) {
-    return 'asd';
+    return 'hd pro webcam';
   } else if (location.href.indexOf('cardigans') >= 0) {
-    return 'asd';
+    return 'logitech webcam';
   }
 
   return null;
 }
 
 function setOptionBasedOnLabel(select, label) {
-  for (var i = 0; i < select.options.length; i++) {
-    if (select.options[i].label.indexOf(label) >= 0) {
+  for (let i = 0; i < select.options.length; i++) {
+    console.log(i, select.options[i].label, label);
+    if (
+      select.options[i].label.toLowerCase().indexOf(label.toLowerCase()) >= 0
+    ) {
       select.selectedIndex = i;
+      select.dispatchEvent(new Event('change'));
       break;
     }
   }
@@ -45,25 +49,27 @@ function switchCamera() {
 
   optionsButton.click();
 
-  setTimeout(function() {
+  setTimeout(() => {
     const cameraInputSelector = document.querySelector(
       'select[name="cameraInputSelector"]'
     );
 
-    var currentCameraName =
+    const selectedCameraName =
       cameraInputSelector.options[cameraInputSelector.selectedIndex].label;
 
-    if (currentCameraName.indexOf(cameraName) < 0) {
+    if (selectedCameraName.indexOf(cameraName) < 0) {
       setOptionBasedOnLabel(cameraInputSelector, cameraName);
       const saveButton = document.querySelector('.save-button');
-      saveButton.click();
+      setTimeout(() => {
+        saveButton.click();
+      }, 2000);
     }
-  }, 500);
+  }, 1000);
 }
 
 function resizeLastStreamerWindow() {
   // Try to expand last item every 15s
-  function expand() {
+  const expand = () => {
     const allClients = document.querySelectorAll(
       'div[ng-repeat="client in clients | clientFilter:RoomState.localClient"]'
     );
@@ -75,7 +81,7 @@ function resizeLastStreamerWindow() {
     if (button) {
       button.click();
     }
-  }
+  };
 
   setInterval(expand, 1000 * 15);
   expand();
@@ -84,7 +90,7 @@ function resizeLastStreamerWindow() {
 /**
  * This part is responsible for setting the reload timetout
  */
-setTimeout(function() {
+setTimeout(() => {
   window.open(location.href, '_blank');
   window.close();
 }, interval);
@@ -93,7 +99,7 @@ setTimeout(function() {
  * This part is responsible for clicking on full screen button
  * Finds the last connected client and enlarges the screen
  */
-var checkStarted = setInterval(function() {
+const checkStarted = setInterval(() => {
   if (
     !document.querySelector('.connection-attempt.wrapper') &&
     document.querySelector('.video-stream-container')
