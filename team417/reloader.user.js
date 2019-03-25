@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Team 417 appear.in channel reloader
 // @namespace    http://tampermonkey.net/
-// @version      0.15
+// @version      0.16
 // @description  Reload Team 417 appear.in channel to recover it in case of crashing
 // @author       dpet
 // @match        https://appear.in/june2.0
@@ -53,13 +53,19 @@ function switchCamera() {
     const cameraInputSelector = document.querySelector(
       'select[name="cameraInputSelector"]'
     );
+    const saveButton = document.querySelector('.save-button');
+
+    if (cameraInputSelector.options.length < 2) {
+      saveButton.click();
+      return;
+    }
 
     const selectedCameraName =
       cameraInputSelector.options[cameraInputSelector.selectedIndex].label;
 
     if (selectedCameraName.indexOf(cameraName) < 0) {
       setOptionBasedOnLabel(cameraInputSelector, cameraName);
-      const saveButton = document.querySelector('.save-button');
+      
       setTimeout(() => {
         saveButton.click();
       }, 2000);
