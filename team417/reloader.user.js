@@ -1,23 +1,45 @@
 // ==UserScript==
-// @name         Team 417 appear.in channel reloader
-// @namespace    http://tampermonkey.net/
-// @version      0.17
-// @description  Reload Team 417 appear.in channel to recover it in case of crashing
-// @author       dpet
-// @match        https://appear.in/june2.0
-// @match        https://appear.in/cardigans
-// @grant        none
-// @updateURL   https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.meta.js
-// @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.user.js
+// @name  Appear.in channel reloader for my LT-DK team
+// @namespace http://tampermonkey.net/
+// @version 0.19
+// @description Reload appear.in channel after the period of time to keep the connection alive
+// @author  dpet
+// @match https://appear.in/june2.0
+// @match https://appear.in/cardigans
+// @grant GM.setValue
+// @grant GM.getValue
+// @updateURL https://raw.githubusercontent.com/domaspe/userscripts/master/lt-dk-team/reloader.meta.js
+// @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/lt-dk-team/reloader.user.js
 // ==/UserScript==
 
 const interval = 60 * 60 * 1000; // 60min
+const STORE_COUNTRY_KEY = 'AppearInReloader_Country';
 
-function getCameraName() {
-  if (location.href.indexOf('june2.0') >= 0) {
-    return 'hd pro webcam';
-  } else if (location.href.indexOf('cardigans') >= 0) {
-    return 'logitech webcam';
+function getCountry() {
+  return GM.getValue(STORE_COUNTRY_KEY, '').then(
+    country =>
+      country ||
+      fetch('https://ipapi.co/json')
+        .then(response => response.json())
+        .then(response => response.country) // returns LT / DK
+        .catch(err => {
+          console.error('Failed to retrieve location', err);
+          return '';
+        })
+        .then(fetchedCountry => {
+          GM.setValue(STORE_COUNTRY_KEY, fetchedCountry);
+          return fetchedCountry;
+        })
+  );
+}
+
+function getCameraName(country) {
+  if (country === 'LT') {
+    if (location.href.indexOf('june2.0') >= 0) {
+      return 'hd pro webcam';
+    } else if (location.href.indexOf('cardigans') >= 0) {
+      return 'hd pro webcam'; // 'logitech webcam';
+    }
   }
 
   return null;
@@ -36,8 +58,8 @@ function setOptionBasedOnLabel(select, label) {
   }
 }
 
-function switchCamera() {
-  const cameraName = getCameraName();
+function switchCamera(country) {
+  const cameraName = getCameraName(country);
   if (!cameraName) {
     return;
   }
@@ -65,7 +87,7 @@ function switchCamera() {
 
     if (selectedCameraName.indexOf(cameraName) < 0) {
       setOptionBasedOnLabel(cameraInputSelector, cameraName);
-      
+
       setTimeout(() => {
         saveButton.click();
       }, 2000);
@@ -105,14 +127,16 @@ setTimeout(() => {
  * This part is responsible for clicking on full screen button
  * Finds the last connected client and enlarges the screen
  */
-const checkStarted = setInterval(() => {
-  if (
-    !document.querySelector('.connection-attempt.wrapper') &&
-    document.querySelector('.video-stream-container')
-  ) {
-    clearInterval(checkStarted);
+getCountry().then(country => {
+  const checkStarted = setInterval(() => {
+    if (
+      !document.querySelector('.connection-attempt.wrapper') &&
+      document.querySelector('.video-stream-container')
+    ) {
+      clearInterval(checkStarted);
 
-    switchCamera();
-    enlargeLastParticipantWindow();
-  }
-}, 100);
+      switchCamera(country);
+      enlargeLastParticipantWindow();
+    }
+  }, 100);
+});
