@@ -7,6 +7,6 @@
 // @match        https://appear.in/june2.0
 // @match        https://appear.in/cardigans
 // @grant        none
-// @updateURL   https://raw.githubusercontent.com/domaspe/userscripts/master/lt-dk-team/reloader.meta.js
-// @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/lt-dk-team/reloader.user.js
+// @updateURL   https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.meta.js
+// @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.user.js
 // ==/UserScript==

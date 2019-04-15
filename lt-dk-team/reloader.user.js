@@ -8,8 +8,8 @@
 // @match https://appear.in/cardigans
 // @grant GM.setValue
 // @grant GM.getValue
-// @updateURL https://raw.githubusercontent.com/domaspe/userscripts/master/lt-dk-team/reloader.meta.js
-// @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/lt-dk-team/reloader.user.js
+// @updateURL https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.meta.js
+// @downloadURL https://raw.githubusercontent.com/domaspe/userscripts/master/team417/reloader.user.js
 // ==/UserScript==
 
 const interval = 60 * 60 * 1000; // 60min
