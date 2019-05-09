@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name  Appear.in channel reloader for my LT-DK team
 // @namespace http://tampermonkey.net/
-// @version 0.19
+// @version 0.20
 // @description Reload appear.in channel after the period of time to keep the connection alive
 // @author  dpet
 // @match https://appear.in/june2.0
@@ -127,6 +127,7 @@ setTimeout(() => {
  * This part is responsible for clicking on full screen button
  * Finds the last connected client and enlarges the screen
  */
+/* 
 getCountry().then(country => {
   const checkStarted = setInterval(() => {
     if (
@@ -140,3 +141,4 @@ getCountry().then(country => {
     }
   }, 100);
 });
+*/
