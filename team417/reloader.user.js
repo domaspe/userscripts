@@ -1,10 +1,9 @@
 // ==UserScript==
 // @name  Appear.in channel reloader for my LT-DK team
 // @namespace http://tampermonkey.net/
-// @version 0.20
+// @version 0.21
 // @description Reload appear.in channel after the period of time to keep the connection alive
 // @author  dpet
-// @match https://appear.in/june2.0
 // @match https://appear.in/cardigans
 // @grant GM.setValue
 // @grant GM.getValue
@@ -122,6 +121,15 @@ setTimeout(() => {
   window.open(location.href, '_blank');
   window.close();
 }, interval);
+
+setInterval(() => {
+  const dismissButton = document.querySelector(
+    'button[ng-click="module.dismissNotification()"]'
+  );
+  if (dismissButton) {
+    dismissButton.click();
+  }
+}, 2000);
 
 /**
  * This part is responsible for clicking on full screen button
